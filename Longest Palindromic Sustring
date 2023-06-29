@@ -1,0 +1,39 @@
+class Solution {
+public:
+   
+    string longestPalindrome(string s) {
+        int n=s.length();
+
+        vector<vector<bool>>matrix(n,vector<bool>(n,false));
+        int r=0;
+        int c=0;
+        for(int i=0;i<n;i++)
+        {
+            matrix[i][i]=true;
+            if(s[i]==s[i+1]){ 
+            matrix[i][i+1]=true;
+            r=i;
+            c=i+1;
+            }
+        }
+       
+        for(int j=2;j<n;j++)
+        {
+                int k=j;
+            for(int i=0;i<n-j;i++)
+            {
+                if(s[i]==s[k+i]&&matrix[i+1][k+i-1]==true)
+                {
+                    matrix[i][k+i]=true;
+                    r=i;
+                    c=k+i;
+                    // cout<<r<<" "<<c<<endl;
+                }
+                
+            }
+        }
+        return s.substr(r,c-r+1);
+
+
+    }
+};

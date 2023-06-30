@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int repeatedStringMatch(string a, string b) {
+        int n=a.length();
+        int m=b.length();
+        int ans=0;
+        for(int i=0;i<n;i++)
+        {
+            if(a[i]==b[0])
+            {
+                int j=0;
+                int ind=i;
+                int count=1;
+                while(j<m&&b[j]==a[ind%n])
+                {
+                    j++;
+                    ind++;
+                    if(ind%n==0&&j!=m) count++;
+                }
+                if(j==m)
+                {
+                    ans=count;
+                    break;
+                }
+            }
+        }
+        return ans==0?-1:ans;
+    }
+};

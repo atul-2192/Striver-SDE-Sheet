@@ -1,0 +1,124 @@
+
+
+struct Node{
+
+Node* links[26]={NULL};
+
+int countEnd=0;
+int countPre=0;
+
+bool containKey(char ch)
+{
+    return links[ch-'a']!=NULL;
+}
+
+void putKey(char ch)
+{
+    Node* newNode= new Node();
+    links[ch-'a']=newNode;
+} 
+
+ Node* get(char ch)
+ {
+     return links[ch-'a'];
+ }
+
+ void setEnd()
+ {
+     countEnd++;
+ }
+ int getEnd()
+ {
+     return countEnd;
+ }
+ void setPre()
+ {
+     countPre++;
+ }
+ int getPre()
+ {
+    return countPre;
+ }
+ void eraseEnd()
+ {
+     countEnd--;
+ }
+ void erasePre()
+ {
+     countPre--;
+ }
+};
+class Trie{
+    private:
+    Node* root;
+    public:
+
+    Trie(){
+        root= new Node();
+    }
+
+    void insert(string &word){
+      int n=word.length();
+      Node* curr= root;
+      for(int i=0;i<n;i++)
+      {
+          char ch=word[i];
+          if(!curr->containKey(ch))
+          {
+              curr->putKey(ch);
+            
+          }
+          curr=curr->get(ch);
+          curr->setPre();
+      }
+      curr->setEnd();
+    }
+
+    int countWordsEqualTo(string &word){
+       int n=word.length();
+      Node* curr= root;
+      for(int i=0;i<n;i++)
+      {
+          char ch=word[i];
+          if(!curr->containKey(ch))
+          {
+             return 0;
+            
+          }
+          curr=curr->get(ch);
+         
+      }
+     return curr->getEnd();
+    }
+
+    int countWordsStartingWith(string &word){
+         int n=word.length();
+      Node* curr= root;
+      for(int i=0;i<n;i++)
+      {
+          char ch=word[i];
+          if(!curr->containKey(ch))
+          {
+             return 0;
+            
+          }
+          curr=curr->get(ch);
+         
+      }
+     return curr->getPre();
+    }
+
+    void erase(string &word){
+        int n=word.length();
+      Node* curr= root;
+      for(int i=0;i<n;i++)
+      {
+          char ch=word[i];
+       
+          curr=curr->get(ch);
+          curr->erasePre();
+         
+      }
+      curr->eraseEnd();
+    }
+};

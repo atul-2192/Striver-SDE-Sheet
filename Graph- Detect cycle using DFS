@@ -1,0 +1,29 @@
+ bool dfs(int s,int parent, vector<bool>&visited, vector<int>adj[])
+    {
+        visited[s]=true;
+        for(int x:adj[s])
+        {
+            if(visited[x]==false)
+            {
+              if( dfs(x,s,visited,adj)==true) return true;
+            }
+            else
+            {
+                if(x!=parent) return true;
+            }
+        }
+        return false;
+    }
+    
+    bool isCycle(int V, vector<int> adj[]) {
+        vector<bool> visited(V,false);
+        
+        for(int i=0;i<V;i++)
+        {
+            if(visited[i]==false)
+            {
+                if(dfs(i,-1,visited,adj)==true) return true;
+            }
+        }
+        return false;
+    }

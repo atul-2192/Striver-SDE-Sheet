@@ -1,0 +1,80 @@
+struct Node{
+    int val=0;
+    int key=0;
+     Node* next;
+     Node* prev;
+
+   Node (int ke,int value)
+  {  key=ke;
+      val=value;
+      next=NULL;
+      prev=NULL;
+  }
+};
+
+
+
+class LRUCache {
+
+    private:
+    Node *root,*tail;
+    unordered_map<int,Node*> mp;
+    int capacity=0;
+
+public:
+   
+    LRUCache(int cap) {
+       capacity=cap;
+       root= new Node(0,0);
+       tail= new Node(0,0);
+       root->next=tail;
+       tail->prev=root;
+    }
+    
+    int get(int key) {
+        if(mp.find(key)!=mp.end())
+        { cout<<key<<endl;
+            Node* curr= mp[key];
+            int value = curr->val;
+               
+            put(key,value);
+            return value;
+        }
+        return -1;
+        
+    }
+    
+    void put(int key, int value) {  
+
+        if(mp.find(key)!=mp.end())
+        {  
+            Node *node= mp[key];
+            Node *left= node->prev;
+            Node* right= node->next;
+            left->next=node->next;
+            right->prev=node->prev;
+            delete(node);
+            mp.erase(key);
+        }
+        else if(mp.size()>=capacity)
+        {
+                Node* curr= tail->prev;
+                  mp.erase(curr->key);
+                Node* left= curr->prev;
+                left->next=tail;
+                tail->prev=left;
+                delete(curr);
+              
+        }
+
+
+            Node* curr= new Node(key,value);
+           
+            Node* nextRoot=root->next;
+            root->next=curr;
+            curr->next=nextRoot;
+            nextRoot->prev=curr;
+            curr->prev=root;
+            mp[key]=curr;
+    }
+};

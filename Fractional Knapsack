@@ -1,0 +1,29 @@
+  double fractionalKnapsack(int We, Item arr[], int n)
+    {
+       double W=We;
+        vector<pair<double,int>>rate;
+        double profit=0;
+        for(int i=0;i<n;i++)
+        {
+            rate.push_back({(double)arr[i].value/(double)arr[i].weight,i});
+        }
+         sort(rate.begin(),rate.end());
+        int it=n-1;
+        // for(int i=0;i<n;i++)
+        // cout<<rate[i].first<<" "<<rate[i].second<<endl;
+        while(it>=0&&W>0)
+        {
+            if(arr[rate[it].second].weight<W) 
+            {
+                profit+=arr[rate[it].second].value;
+                W-=arr[rate[it].second].weight;
+                it--;
+            }
+            else
+            {
+                profit+=W*rate[it].first;
+                W=0;
+            }
+        }
+        return profit;
+    }
